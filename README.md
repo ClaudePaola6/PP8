@@ -134,8 +134,17 @@ In this exercise you will:
 #### Reflection Questions
 
 1. **How do you pass a file name to a program using the `-i` and `-o` options?**
+Man übergibt Dateinamen an ein Programm in der Kommandozeile mit den Optionen -i (für Eingabedatei) und -o (für Ausgabedatei).
+Im Code werden die Optionen mit getopt() gelesen. Das Programm erkennt:
+-i eingabe.txt → infile = "eingabe.txt"
+-o ausgabe.txt → outfile = "ausgabe.txt"
+optarg ist der Wert nach der Option (also der Dateiname).
 2. **What are typical use cases for parameters versus flags? How do the differ from one another?**
+Parameter geben dem Programm konkrete Werte, die es zur Ausführung braucht (zum Beispiel eine Zahl, ein Text oder eine Datei).
 
+Flags dienen dazu, das Verhalten des Programms zu steuern, ohne zusätzliche Werte anzugeben.
+
+Parameter und Flags werden beide über die Kommandozeile übergeben, aber sie haben unterschiedliche Zwecke.
 ---
 
 ### Task 3: Interactive Input with `scanf` & `fscanf`
@@ -218,6 +227,8 @@ In this exercise you will:
 #### Reflection Question
 
 * **What is the difference between redirecting to stdin and explicitly opening a file with `fopen`?**
+  Umleitung ist extern gesteuert (von der Shell), nützlich für einfache Eingaben.
+fopen() gibt dem Programm mehr Kontrolle – man kann mehrere Dateien öffnen, unterschiedliche Modi verwenden, usw.
 
 ---
 
@@ -408,7 +419,28 @@ In this exercise you will:
 #### Reflection Question
 
 * **Explain in your own words what the encryption and decryption processes are doing in both ciphers.**
-
+1. Caesar-Verschlüsselung (symmetrisch)
+🔄 Verschlüsselung:
+Bei der Caesar-Verschlüsselung wird jeder Buchstabe im Alphabet um eine bestimmte Anzahl an Stellen verschoben (z. B. um 3 Positionen).
+Beispiel bei einem Shift von 3:
+'A' → 'D',
+'x' → 'a' (mit Rücksprung am Ende des Alphabets).
+Nicht-Buchstaben (z. B. Zahlen, Leerzeichen, Satzzeichen) bleiben unverändert.
+🔁 Entschlüsselung:
+Die Entschlüsselung verschiebt die Buchstaben einfach in die entgegengesetzte Richtung.
+Im Code wird das clever gelöst durch:
+Bearbeiten
+decrypt_char(c, shift) = encrypt_char(c, 26 - (shift % 26));
+💡 Die Caesar-Verschlüsselung ist symmetrisch: derselbe Schlüssel (Shift) wird für beide Richtungen benutzt.
+2. XOR-Verschlüsselung (Prototyp einer asymmetrischen Methode)
+🔄 Verschlüsselung:
+Jeder Buchstabe wird mit einem Schlüsselbyte XOR-verknüpft.
+Das bedeutet: jedes Bit im Zeichen wird mit dem Bit des Schlüssels verglichen (exklusives Oder).
+🔁 Entschlüsselung:
+Das Geniale an XOR: Wenn man denselben Schlüssel noch einmal anwendet, erhält man den Originalwert zurück:
+Bearbeiten
+01101011 ('k') XOR 42 = 01000001 ('A')
+💡 Technisch gesehen ist auch XOR symmetrisch, da der gleiche Schlüssel verwendet wird – aber es wird hier als Prototyp einer asymmetrischen Methode behandelt, um den Unterschied im Mechanismus zu zeigen.
 ---
 
 **Remember:** Stop after **90 minutes** and record where you stopped.
